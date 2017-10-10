@@ -7,6 +7,7 @@
 #include <iostream>
 #include <sstream>
 #include "Libs/assetmanager.h"
+#include <cstdlib>
 
 //A paciencia maxima pode ser alterada.
 //Ela é usada para criar o efeito de cores
@@ -17,10 +18,21 @@ struct Cliente
 {
     int paciencia;
     int documentos;
+    std::string nome;
+
     Cliente(int paciencia, int documentos)
     {
+        gerarNomeAleatorio();
         this->paciencia = paciencia;
         this->documentos = documentos;
+    }
+
+    void gerarNomeAleatorio(){
+        std::string consoantes = "bcdfghjklmnpqrstvxyz";
+        std::string vogais = "aeiou";
+        this->nome = std::string(1, consoantes[std::rand() % consoantes.size()]);
+        this->nome += std::string(1, vogais[std::rand() % vogais.size()]);
+        this->nome += std::string(1, consoantes[std::rand() % consoantes.size()]);
     }
 };
 
@@ -40,7 +52,7 @@ public:
         chao.setFillColor(sf::Color(128,128,128));
 
         // Definindo texto de clientes excedentes
-        excedenteFila.setFont(AssetManager::GetFont("../projeto/Libs/rough_typewriter.otf"));
+        excedenteFila.setFont(AssetManager::GetFont("../projeto/Libs/inconsolata.otf"));
         excedenteFila.scale(0.65,0.65);
         excedenteFila.setPosition(largura-4*unidade, unidade/8);
 
@@ -146,9 +158,12 @@ private:
     void desenharCliente(Cliente const* clienteInfo, sf::CircleShape &clienteShape)
     {
         sf::Text paciencia;
-        paciencia.setFont(AssetManager::GetFont("../projeto/Libs/rough_typewriter.otf"));
-        paciencia.setString(std::to_string(clienteInfo->documentos));
-        paciencia.setPosition(clienteShape.getPosition());
+        paciencia.setFont(AssetManager::GetFont("../projeto/Libs/inconsolata.otf"));
+        paciencia.setCharacterSize(24);
+        paciencia.setString(clienteInfo->nome + "\n" +
+                            std::to_string(clienteInfo->documentos));
+        auto raio = clienteShape.getRadius();
+        paciencia.setPosition(clienteShape.getPosition() - sf::Vector2f(raio, raio));
 
         int cor = ((255/MAX_PACIENCIA)*clienteInfo->paciencia);
         clienteShape.setFillColor(sf::Color(255-cor, 0, cor));
