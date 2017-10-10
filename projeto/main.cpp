@@ -49,7 +49,7 @@ void simulacao(){
     std::vector<Cliente*> caixa(numCaixas);
     std::list<Cliente*> fila;
 
-    int qtd = 5;
+    int qtd = 30;
     for(int i = 0; i < qtd; i++)
         fila.push_back(new Cliente(rand_mm(min_pac, max_pac),
                                    rand_mm(min_doc, max_doc)));
