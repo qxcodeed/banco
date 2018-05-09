@@ -6,7 +6,7 @@
 #include <list>
 #include <iostream>
 #include <sstream>
-#include "Libs/assetmanager.h"
+#include "assetmanager.h"
 #include <cstdlib>
 
 //A paciencia maxima pode ser alterada.
